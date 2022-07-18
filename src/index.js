@@ -37,10 +37,14 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
-function decode(expr) {
-    // write your solution here
-}
-
-module.exports = {
-    decode
-}
+const decodeLetter = letter => {
+    return MORSE_CODE[letter];
+  }
+  
+  const decodeWord = word => {
+    return word.split(' ').map(decodeLetter).join('');
+  }
+  
+  const decodeMorse = morseCode => {
+    return morseCode.trim().split('   ').map(decodeWord).join(' ');
+  }
