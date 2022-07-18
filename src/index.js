@@ -37,14 +37,26 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
-const decodeLetter = letter => {
-    return MORSE_CODE[letter];
-  }
-  
-  const decodeWord = word => {
-    return word.split(' ').map(decodeLetter).join('');
-  }
-  
-  const decodeMorse = morseCode => {
-    return morseCode.trim().split('   ').map(decodeWord).join(' ');
-  }
+function decode(expr) {
+    const result = [];
+    const splited = expr.split('');
+    while (splited.length) {
+        const letter = splited.splice(0, 10);
+        if (letter.join('') === '**********') {
+            result.push(' ');
+            continue;
+        }
+        const binCode = letter.splice(letter.indexOf('1'));
+        const code = [];
+        while (binCode.length) {
+            const isDash = binCode.splice(0, 2)[1] === '1'
+            code.push(isDash ? '-' : '.')
+        }
+        result.push(MORSE_TABLE[code.join('')])
+    }
+    return result.join('');
+}
+
+module.exports = {
+    decode
+}
